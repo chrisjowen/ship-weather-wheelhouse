@@ -1,0 +1,58 @@
+{
+	"$schema": "https://raw.githubusercontent.com/chrisjowen/wheelhouse/main/packages/plugin-sdk/plugin.schema.json",
+	"name": "ship-weather",
+	"displayName": "Ship’s weather",
+	"version": "0.1.0",
+	"description": "Fleet health as weather in Wheelhouse’s header, from clear to stormy; click it for what’s wrong, why, and the latest events.",
+	"author": { "name": "Chris Owen", "url": "https://github.com/chrisjowen" },
+	"repository": "https://github.com/chrisjowen/ship-weather-wheelhouse",
+	"license": "MIT",
+	"keywords": ["firstmate", "fleet", "health", "header"],
+	"wheelhouse": {
+		"apiVersion": 1,
+		"server": "wheelhouse/server/index.js",
+		"ui": "wheelhouse/ui/index.js",
+		"enabledByDefault": false,
+		"contributions": [{ "id": "weather", "slot": "header.indicator" }],
+		"services": [],
+		"mcpServers": [],
+		"settings": {
+			"headroomLow": {
+				"title": "Claude headroom is low at (% left)",
+				"description": "Below this much of the session or week left, the weather clouds over.",
+				"type": "number",
+				"default": 25
+			},
+			"headroomCritical": {
+				"title": "Claude headroom is nearly out at (% left)",
+				"description": "Below this much of the session or week left, it’s a storm.",
+				"type": "number",
+				"default": 10
+			},
+			"stormAt": {
+				"title": "Storm when this many things are failing",
+				"description": "Failing checks, failed steps or tasks, and workers not answering, counted together.",
+				"type": "number",
+				"default": 3
+			},
+			"decisionsForCloud": {
+				"title": "Cloud over when this many decisions wait on you",
+				"description": "Fewer than this is still fair weather.",
+				"type": "number",
+				"default": 3
+			},
+			"githubChecks": {
+				"title": "Read pull request checks from GitHub",
+				"description": "Asks GitHub (with gh) for the failing checks on up to eight open pull requests at each read.",
+				"type": "boolean",
+				"default": true
+			},
+			"events": {
+				"title": "Latest events to keep",
+				"description": "How many events the ship’s log holds; it shows the newest four until you ask for more.",
+				"type": "number",
+				"default": 12
+			}
+		}
+	}
+}
