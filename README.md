@@ -71,6 +71,8 @@ wheelhouse/server/index.js       the provider and the header contribution
 wheelhouse/server/weather.js     how the weather is read from the fleet (pure)
 wheelhouse/server/events.js      the ship's log, from the fleet ledger
 wheelhouse/server/headroom.js    Claude headroom, from quota-axi
+wheelhouse/server/settings.js    the settings, with the manifest's defaults filled in
+wheelhouse/server/words.js       small helpers for the plain words the panel shows
 wheelhouse/ui/index.js           <ship-weather-indicator>, the pill and its drill-in
 ```
 
