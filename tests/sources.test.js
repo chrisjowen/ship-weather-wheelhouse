@@ -74,6 +74,22 @@ describe('the latest events', () => {
 		assert.equal(eventsFrom(ledger, TASKS, 2).length, 2);
 	});
 
+	it('merge a repeat only when it is about the same task', () => {
+		const twins = [
+			task({ id: 'a', shortTitle: 'Same name' }),
+			task({ id: 'b', shortTitle: 'Same name' })
+		];
+		const text = [
+			line({ ts: 1000, event: 'task.status', task: 'a', state: 'done' }),
+			line({ ts: 1100, event: 'task.status', task: 'b', state: 'done' }),
+			line({ ts: 1200, event: 'task.status', task: 'b', state: 'done' })
+		].join('\n');
+		assert.deepEqual(
+			eventsFrom(text, twins, 10).map((e) => e.href),
+			['/tasks/b', '/tasks/a']
+		);
+	});
+
 	it('never carry the worker’s status text', () => {
 		const all = JSON.stringify(eventsFrom(ledger, TASKS, 10));
 		assert.ok(
@@ -221,6 +237,15 @@ describe('the provider', () => {
 		const off = fakeCtx(tasks, { gh: ok, tail: { ok: true, stdout: '' } }, { githubChecks: false });
 		await readWeather(off.ctx);
 		assert.equal(off.ran.filter((r) => r.argv[0] === 'gh').length, 0);
+	});
+
+	it('still forecasts, with no events, when the context has no task list', async () => {
+		const { ctx } = fakeCtx(undefined, {
+			tail: { ok: true, stdout: line({ ts: 1000, event: 'task.dispatched', task: 'zip' }) }
+		});
+		const v = await readWeather(ctx);
+		assert.equal(v.weather, 'clear');
+		assert.deepEqual(v.events, []);
 	});
 
 	it('is the plugin’s one fleet provider, filling the header with its element', async () => {

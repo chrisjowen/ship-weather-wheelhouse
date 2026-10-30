@@ -185,6 +185,17 @@ describe('the weather', () => {
 		assert.deepEqual(v.problems[0].links[0], { label: 'Deploy', href: 'https://ci.example/run/1' });
 	});
 
+	it('counts failed and blocked work as no worker out', () => {
+		for (const status of ['failed', 'blocked']) {
+			const v = forecast(input({ tasks: [task({ status })] }));
+			assert.ok(
+				v.reasons.some((r) => r.text === 'No workers out'),
+				status
+			);
+			assert.ok(!v.reasons.some((r) => /answering/.test(r.text)), status);
+		}
+	});
+
 	it('brings squalls when a worker stops answering', () => {
 		const v = forecast(
 			input({ tasks: [task({ status: 'lost' }), task({ id: 'b', status: 'working' })] })

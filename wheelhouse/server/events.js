@@ -55,6 +55,8 @@ export function eventsFrom(text, tasks, limit) {
 	const byId = new Map(tasks.map((t) => [t.id, t]));
 	/** @type {WeatherEvent[]} */
 	const out = [];
+	/** @type {string | null} */
+	let prevTask = null;
 	const lines = text.split('\n');
 	for (let i = lines.length - 1; i >= 0 && out.length < limit; i--) {
 		const line = lines[i].trim();
@@ -74,7 +76,8 @@ export function eventsFrom(text, tasks, limit) {
 		const title = task.shortTitle || task.title || 'A task';
 		const prev = out[out.length - 1];
 		// The same thing said again about the same task (a repeated status line) is one event.
-		if (prev && prev.title === title && prev.text === d.text) continue;
+		if (prev && prevTask === task.id && prev.text === d.text) continue;
+		prevTask = task.id;
 		out.push({
 			at: new Date(e.ts * 1000).toISOString(),
 			title,

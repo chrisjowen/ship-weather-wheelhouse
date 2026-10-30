@@ -50,7 +50,7 @@ export const WORDS = {
 /** Statuses that are over: nothing about them makes weather. */
 const OVER = new Set(['landed']);
 /** Statuses with no worker out yet, or no longer. */
-const NO_WORKER = new Set(['landed', 'done', 'queued']);
+const NO_WORKER = new Set(['landed', 'done', 'queued', 'failed', 'blocked']);
 /** Passage check outcomes that mean it failed. */
 const CHECK_FAILED = new Set(['failure', 'failed', 'error', 'timed_out', 'mismatch']);
 

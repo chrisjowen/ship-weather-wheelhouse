@@ -99,9 +99,10 @@ export async function readPrChecks(ctx, tasks) {
 
 /**
  * @param {any} ctx
+ * @param {import('./events.js').TaskRef[]} tasks
  * @param {number} limit
  */
-export async function readEvents(ctx, limit) {
+export async function readEvents(ctx, tasks, limit) {
 	const r = await run(ctx, ['tail', '-n', String(LEDGER_LINES), 'state/fleet-ledger.jsonl'], {
 		timeoutMs: 3_000,
 		maxBytes: 2 * 1024 * 1024
@@ -111,7 +112,7 @@ export async function readEvents(ctx, limit) {
 			events: [],
 			note: 'Firstmate’s fleet ledger couldn’t be read, so there are no events.'
 		};
-	return { events: eventsFrom(r.stdout, ctx.tasks, limit), note: null };
+	return { events: eventsFrom(r.stdout, tasks, limit), note: null };
 }
 
 /** @param {any} ctx */
@@ -121,7 +122,7 @@ export async function readWeather(ctx) {
 	const [hr, gh, ev] = await Promise.all([
 		readHeadroom(ctx),
 		settings.githubChecks ? readPrChecks(ctx, tasks) : { checks: new Map(), note: null },
-		readEvents(ctx, settings.events)
+		readEvents(ctx, tasks, settings.events)
 	]);
 	return forecast({
 		tasks,
