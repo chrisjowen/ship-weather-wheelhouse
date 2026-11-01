@@ -2,9 +2,13 @@
 
 A [Wheelhouse](https://github.com/chrisjowen/wheelhouse) plugin that shows the fleet’s health as weather in the header, from **Clear** to **Storm**. Click it for a calm drill-in: a small brass barometer with the forecast, why the weather is what it is, what’s wrong, and the ship’s log of latest events.
 
+![Wheelhouse with the Ship’s weather drill-in open under the header pill reading “Squalls · 5”: a barometer and forecast, the reasons, what’s wrong with links to each task and pull request, and the ship’s log](docs/images/drill-in.png)
+
 ## What it shows
 
 The pill in the header carries a small barometer, the weather in a word and how many things there are to look at.
+
+![The header pill in each weather: Clear, Fair · 1, Clouding over · 2, Squalls · 5 and Storm · 6](docs/images/weather-states.png)
 
 | Weather           | When                                                                                                      |
 | ----------------- | --------------------------------------------------------------------------------------------------------- |
@@ -42,6 +46,8 @@ It is off until you turn it on. Open **Settings → Plugins**, find **Ship’s w
 ## Settings
 
 All of these are optional. Change them on the plugin’s page in **Settings → Plugins**, and they apply without a restart.
+
+![The Ship’s weather page in Settings → Plugins: where it is on, per project, and a form for each setting with its default](docs/images/settings.png)
 
 | Setting             | Default | What it does                                                                                                     |
 | ------------------- | ------- | ---------------------------------------------------------------------------------------------------------------- |
